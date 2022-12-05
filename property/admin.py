@@ -4,7 +4,8 @@ from .models import Flat
 
 
 class AuthorAdmin(admin.ModelAdmin):
-    search_fields = 'town',
+    search_fields = ['town']
+    readonly_fields = ['created_at']
 
 
 admin.site.register(Flat, AuthorAdmin)
