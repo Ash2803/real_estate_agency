@@ -22,6 +22,10 @@ class AuthorAdmin(admin.ModelAdmin):
         'rooms_number'
     ]
 
+    raw_id_fields = [
+        'likes'
+    ]
+
 
 class ComplainsAdmin(admin.ModelAdmin):
     search_fields = [
