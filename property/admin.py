@@ -1,8 +1,9 @@
 from django.contrib import admin
 
-from .models import Flat, Complaint
+from .models import Flat, Complaint, Owner
 
 
+@admin.register(Flat)
 class AuthorAdmin(admin.ModelAdmin):
     search_fields = ['town']
     readonly_fields = ['created_at']
@@ -29,6 +30,7 @@ class AuthorAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(Complaint)
 class ComplainsAdmin(admin.ModelAdmin):
     search_fields = [
         'flat',
@@ -45,5 +47,9 @@ class ComplainsAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(Flat, AuthorAdmin)
-admin.site.register(Complaint, ComplainsAdmin)
+@admin.register(Owner)
+class OwnerAdmin(admin.ModelAdmin):
+
+    raw_id_fields = [
+        'owner_flats'
+    ]
