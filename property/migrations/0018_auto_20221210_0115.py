@@ -9,9 +9,9 @@ class Migration(migrations.Migration):
         Flat = self.get_model('property', 'Flat')
         Owner = self.get_model('property', 'Owner')
         for flat in Flat.objects.all():
-            Owner.objects.get_or_create(owner_name=flat.owner,
-                                        owner_phonenumber=flat.owners_phonenumber,
-                                        owner_pure_phone=flat.owner_pure_phone)
+            Owner.objects.get_or_create(name=flat.owner,
+                                        phonenumber=flat.owners_phonenumber,
+                                        owner_phonenumber=flat.owner_pure_phone)
 
     dependencies = [
         ('property', '0017_owner'),
