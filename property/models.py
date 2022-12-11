@@ -78,9 +78,13 @@ class Owner(models.Model):
 
 
 class Complaint(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Кто жаловался")
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             verbose_name="Кто жаловался",
+                             related_name='users'
+                             )
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE,
                              null=True,
+                             related_name='flats',
                              verbose_name="Квартира, на которую пожаловались"
                              )
     complaint = models.TextField(blank=True, verbose_name="Текст жалобы")
