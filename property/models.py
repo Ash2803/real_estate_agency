@@ -5,13 +5,17 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Flat(models.Model):
+    BOOL_CHOICES = (
+        (True, 'Да'),
+        (False, 'Нет'),
+        (None, 'Неизвестно')
+    )
     created_at = models.DateTimeField(
         'Когда создано объявление',
         default=timezone.now,
         db_index=True)
     description = models.TextField('Текст объявления', blank=True)
     price = models.IntegerField('Цена квартиры', db_index=True)
-
     town = models.CharField(
         'Город, где находится квартира',
         max_length=50,
@@ -45,13 +49,6 @@ class Flat(models.Model):
         null=True,
         blank=True,
         db_index=True)
-
-    BOOL_CHOICES = (
-        (True, 'Да'),
-        (False, 'Нет'),
-        (None, 'Неизвестно')
-    )
-
     new_building = models.BooleanField(choices=BOOL_CHOICES,
                                        default=None,
                                        blank=True,
