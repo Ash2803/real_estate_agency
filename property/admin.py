@@ -3,8 +3,15 @@ from django.contrib import admin
 from .models import Flat, Complaint, Owner
 
 
+class OwnersInline(admin.TabularInline):
+    model = Owner.owners.through
+    raw_id_fields = [
+        'owner'
+    ]
+
+
 @admin.register(Flat)
-class AuthorAdmin(admin.ModelAdmin):
+class FlatsAdmin(admin.ModelAdmin):
     search_fields = ['town']
     readonly_fields = ['created_at']
     list_display = [
@@ -27,6 +34,9 @@ class AuthorAdmin(admin.ModelAdmin):
 
     raw_id_fields = [
         'likes'
+    ]
+    inlines = [
+        OwnersInline,
     ]
 
 
