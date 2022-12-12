@@ -7,13 +7,21 @@ class Migration(migrations.Migration):
 
     def is_building_new(self, schema_editor):
         Flat = self.get_model('property', 'Flat')
-        for flat in Flat.objects.all():
-            if flat.construction_year >= 2015:
-                flat.new_building = True
-                flat.save()
-            else:
-                flat.new_building = False
-                flat.save()
+        flats = Flat.objects.all()
+        flats_iterator = flats.iterator()
+        try:
+            first_flat = next(flats_iterator)
+        except StopIteration:
+            pass
+        else:
+            from itertools import chain
+            for flat in chain([first_flat], flats_iterator):
+                if flat.construction_year >= 2015:
+                    flat.new_building = True
+                    flat.save()
+                else:
+                    flat.new_building = False
+                    flat.save()
 
     dependencies = [
         ('property', '0004_auto_20221205_1640'),
