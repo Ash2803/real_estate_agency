@@ -7,15 +7,23 @@ class Migration(migrations.Migration):
 
     def parse_numbers(self, schema_editor):
         Flat = self.get_model('property', 'Flat')
-        for flat in Flat.objects.all():
-            if flat.owners_phonenumber:
-                unparsed_number = flat.owners_phonenumber
-                parsed_number = phonenumbers.parse(unparsed_number, 'RU')
-                if phonenumbers.is_possible_number(parsed_number) and phonenumbers.is_valid_number(parsed_number):
-                    flat.owner_pure_phone = phonenumbers.format_number(parsed_number,
-                                                                       phonenumbers.PhoneNumberFormat.E164
-                                                                       )
-                    flat.save()
+        flats = Flat.objects.all()
+        flats_iterator = flats.iterator()
+        try:
+            first_flat = next(flats_iterator)
+        except StopIteration:
+            pass
+        else:
+            from itertools import chain
+            for flat in chain([first_flat], flats_iterator):
+                if flat.owners_phonenumber:
+                    unparsed_number = flat.owners_phonenumber
+                    parsed_number = phonenumbers.parse(unparsed_number, 'RU')
+                    if phonenumbers.is_possible_number(parsed_number) and phonenumbers.is_valid_number(parsed_number):
+                        flat.owner_pure_phone = phonenumbers.format_number(parsed_number,
+                                                                           phonenumbers.PhoneNumberFormat.E164
+                                                                           )
+                        flat.save()
 
     dependencies = [
         ('property', '0015_auto_20221208_0129'),

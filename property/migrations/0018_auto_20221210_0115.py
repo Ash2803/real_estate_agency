@@ -8,10 +8,18 @@ class Migration(migrations.Migration):
     def load_users(self, schema_editor):
         Flat = self.get_model('property', 'Flat')
         Owner = self.get_model('property', 'Owner')
-        for flat in Flat.objects.all():
-            Owner.objects.get_or_create(name=flat.owner,
-                                        phonenumber=flat.owners_phonenumber,
-                                        owner_phonenumber=flat.owner_pure_phone)
+        flats = Flat.objects.all()
+        flats_iterator = flats.iterator()
+        try:
+            first_flat = next(flats_iterator)
+        except StopIteration:
+            pass
+        else:
+            from itertools import chain
+            for flat in chain([first_flat], flats_iterator):
+                Owner.objects.get_or_create(name=flat.owner,
+                                            phonenumber=flat.owners_phonenumber,
+                                            owner_phonenumber=flat.owner_pure_phone)
 
     dependencies = [
         ('property', '0017_owner'),
