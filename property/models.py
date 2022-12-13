@@ -69,10 +69,10 @@ class Owner(models.Model):
                                         db_index=True
                                         )
     flats = models.ManyToManyField('Flat',
-                                    related_name='owners',
-                                    verbose_name='Квартиры в собственности',
-                                    blank=True
-                                    )
+                                   related_name='owners',
+                                   verbose_name='Квартиры в собственности',
+                                   blank=True
+                                   )
 
     def __str__(self):
         return self.name
@@ -81,11 +81,11 @@ class Owner(models.Model):
 class Complaint(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              verbose_name="Кто жаловался",
-                             related_name='users'
+                             related_name='claimed_user'
                              )
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE,
                              null=True,
-                             related_name='flats',
+                             related_name='claimed_flats',
                              verbose_name="Квартира, на которую пожаловались"
                              )
     complaint = models.TextField(blank=True, verbose_name="Текст жалобы")
