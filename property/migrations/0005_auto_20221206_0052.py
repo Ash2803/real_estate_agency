@@ -16,12 +16,8 @@ class Migration(migrations.Migration):
         else:
             from itertools import chain
             for flat in chain([first_flat], flats_iterator):
-                if flat.construction_year >= 2015:
-                    flat.new_building = True
-                    flat.save()
-                else:
-                    flat.new_building = False
-                    flat.save()
+                flat.new_building = (flat.construction_year >= 2015)
+                flat.save()
 
     dependencies = [
         ('property', '0004_auto_20221205_1640'),
