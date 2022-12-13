@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
         else:
             from itertools import chain
             for flat in chain([first_flat], flats_iterator):
-                if Owner.objects.get_or_create(
+                owner, is_exists = Owner.objects.get_or_create(
                         name=flat.owner,
                         phonenumber=flat.owners_phonenumber,
                         defaults={
@@ -25,9 +25,8 @@ class Migration(migrations.Migration):
                             'phonenumber': flat.owners_phonenumber,
                             'pure_phonenumber': flat.owner_pure_phone
                         }
-                ):
-                    owner = Owner.objects.get(name=flat.owner, phonenumber=flat.owners_phonenumber,)
-                    flat.owners.set([owner])
+                )
+                flat.owners.set([owner])
 
     dependencies = [
         ('property', '0020_auto_20221211_0148'),
