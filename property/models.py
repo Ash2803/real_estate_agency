@@ -55,7 +55,7 @@ class Flat(models.Model):
                                        null=True,
                                        verbose_name="Новостройка"
                                        )
-    likes = models.ManyToManyField("Flat", blank=True, related_name="flat_likes", verbose_name='Кто лайкнул')
+    likes = models.ManyToManyField("Flat", blank=True, related_name="owners_likes", verbose_name='Кто лайкнул')
 
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
@@ -81,11 +81,11 @@ class Owner(models.Model):
 class Complaint(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              verbose_name="Кто жаловался",
-                             related_name='claimed_user'
+                             related_name='claims'
                              )
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE,
                              null=True,
-                             related_name='claimed_flats',
+                             related_name='claims',
                              verbose_name="Квартира, на которую пожаловались"
                              )
     complaint = models.TextField(blank=True, verbose_name="Текст жалобы")
