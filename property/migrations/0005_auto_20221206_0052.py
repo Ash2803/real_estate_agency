@@ -8,7 +8,7 @@ class Migration(migrations.Migration):
     def is_building_new(self, schema_editor):
         Flat = self.get_model('property', 'Flat')
         Flat.objects.filter(construction_year__gte=2015).update(new_building=True)
-        Flat.objects.filter(construction_year__lt=2015).update(new_building=True)
+        Flat.objects.filter(construction_year__lt=2015).update(new_building=False)
 
     dependencies = [
         ('property', '0004_auto_20221205_1640'),
